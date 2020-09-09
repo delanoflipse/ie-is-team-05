@@ -52,41 +52,41 @@ function getDelta() {
  * Calculate a new fade level.
  */
 function bang() {
-    // update timing
+	// update timing
 	getDelta();
 
-    // calculate the desired frequency
-    const alertness_factor = alertness / 1000;
-    const rate = SLOW_RATE - RATE_DIFF * alertness_factor;
+	// calculate the desired frequency
+	const alertness_factor = alertness / 1000;
+	const rate = SLOW_RATE - RATE_DIFF * alertness_factor;
 
-    // apply velocity to fade
-    fade_value = Math.round(fade_value + fade_speed * delta);
+	// apply velocity to fade
+	fade_value = Math.round(fade_value + fade_speed * delta);
 
-    // define new fade_speed
+	// define new fade_speed
 	fade_speed = (fade_direction * 1000) / rate;
 
 	if (fade_value >= 1000 && fade_direction > 0) {
-        // if we reached the right limit, bounce
+		// if we reached the right limit, bounce
 		fade_direction *= -1;
 		fade_value = 1000;
 	} else if (fade_value <= 0 && fade_direction < 0) {
-        // if we reached the left limit, bounce
+		// if we reached the left limit, bounce
 		fade_direction *= -1;
-        fade_value = 0;
+		fade_value = 0;
 	} else if (fade_value <= 0) {
-    	// if something weird happens, clip the values
+		// if something weird happens, clip the values
 		fade_value = 0;
 	} else if (fade_value >= 1000) {
 		fade_value = 1000;
 	}
 
-    // output values
+	// output values
 	outlet(0, fade_value);
 	outlet(1, fade_speed);
 }
 
 /** Incoming input */
 function msg_int(input) {
-    // set alertness
+	// set alertness
 	alertness = input;
 }
